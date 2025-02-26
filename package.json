@@ -13,6 +13,7 @@
   "dependencies": {
     "@react-router/node": "^7.2.0",
     "@react-router/serve": "^7.2.0",
+    "bcryptjs": "^3.0.2",
     "isbot": "^5.1.17",
     "mongoose": "^8.10.2",
     "prettier": "^3.5.2",
