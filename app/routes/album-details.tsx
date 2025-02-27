@@ -3,6 +3,8 @@ import type { Route } from "./+types/album-details";
 import Album from "~/db/models/Album";
 import { data, Form, Link, redirect } from "react-router";
 
+export { ErrorBoundary } from "~/root";
+
 export async function loader({ params, request }: Route.LoaderArgs) {
   const session = await requireUserSession(request);
   const album = await Album.findById(params.albumId).lean();

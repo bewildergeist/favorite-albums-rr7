@@ -4,6 +4,8 @@ import Album from "~/db/models/Album";
 import { data, redirect } from "react-router";
 import AlbumForm from "~/components/AlbumForm";
 
+export { ErrorBoundary } from "~/root";
+
 // LOADER ========================================================= //
 export async function loader({ params, request }: Route.LoaderArgs) {
   const session = await requireUserSession(request);
