@@ -27,7 +27,7 @@ export default function SignUp({ actionData }: Route.ComponentProps) {
           id="username"
           placeholder="Username"
           required
-          className="my-3 block w-full rounded border border-zinc-300 bg-white px-2 py-1 dark:border-zinc-700 dark:bg-zinc-900 lg:w-1/2"
+          className="my-3 block w-full rounded border border-zinc-300 bg-white px-2 py-1 lg:w-1/2"
         />
         <input
           type="password"
@@ -35,7 +35,7 @@ export default function SignUp({ actionData }: Route.ComponentProps) {
           id="password"
           placeholder="Password"
           required
-          className="my-3 block w-full rounded border border-zinc-300 bg-white px-2 py-1 dark:border-zinc-700 dark:bg-zinc-900 lg:w-1/2"
+          className="my-3 block w-full rounded border border-zinc-300 bg-white px-2 py-1 lg:w-1/2"
         />
         <input
           type="password"
@@ -43,7 +43,7 @@ export default function SignUp({ actionData }: Route.ComponentProps) {
           id="repeatPassword"
           placeholder="Repeat password"
           required
-          className="my-3 block w-full rounded border border-zinc-300 bg-white px-2 py-1 dark:border-zinc-700 dark:bg-zinc-900 lg:w-1/2"
+          className="my-3 block w-full rounded border border-zinc-300 bg-white px-2 py-1 lg:w-1/2"
         />
         <div className="flex flex-row items-center gap-3">
           <button type="submit" className="my-3 rounded border p-2">
