@@ -1,5 +1,7 @@
 import {
+  Form,
   isRouteErrorResponse,
+  Link,
   Links,
   Meta,
   Outlet,
@@ -9,19 +11,7 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
-
-export const links: Route.LinksFunction = () => [
-  { rel: "preconnect", href: "https://fonts.googleapis.com" },
-  {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
-    crossOrigin: "anonymous",
-  },
-  {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
-  },
-];
+import { getSession } from "./session/session.server";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -29,10 +19,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>My favorite albums</title>
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="bg-orange-50 p-4 font-sans text-amber-900">
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -41,8 +32,37 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function App() {
-  return <Outlet />;
+export async function loader({ request }: Route.LoaderArgs) {
+  const session = await getSession(request.headers.get("Cookie"));
+  return {
+    isAuthenticated: session.has("userId"),
+  };
+}
+
+export default function App({ loaderData }: Route.ComponentProps) {
+  const { isAuthenticated } = loaderData;
+  return (
+    <>
+      <header className="mb-4 flex flex-row items-center border-b border-orange-200 pb-3">
+        <Link to="/albums" className="text-orange-600 hover:underline">
+          Home
+        </Link>
+        <Link to="/albums/new" className="ml-3 text-orange-600 hover:underline">
+          New album
+        </Link>
+        {isAuthenticated ? (
+          <Form method="post" action="/logout" className="ml-auto inline">
+            <button className="text-orange-600 hover:underline">Logout</button>
+          </Form>
+        ) : (
+          <Link to="/login" className="ml-auto text-orange-600 hover:underline">
+            Login
+          </Link>
+        )}
+      </header>
+      <Outlet />
+    </>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

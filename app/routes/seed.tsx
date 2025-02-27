@@ -76,7 +76,10 @@ export async function action({ request }: Route.ActionArgs) {
       const albums = await Album.create(
         selectedAlbums.map((album) => ({ ...album, user: user._id })),
       );
-      console.timeLog("🌱 DB seeding", `- Created ${albums.length} albums for user ${user.username}`);
+      console.timeLog(
+        "🌱 DB seeding",
+        `- Created ${albums.length} albums for user ${user.username}`,
+      );
     }
     console.timeEnd("🌱 DB seeding");
     return redirect("/");
