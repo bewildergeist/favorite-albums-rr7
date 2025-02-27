@@ -31,7 +31,14 @@ export default function AlbumPage({ loaderData }: Route.ComponentProps) {
         >
           ✏️
         </Link>
-        <Form method="post">
+        <Form
+          method="post"
+          onSubmit={(e) => {
+            if (!confirm("Are you sure you want to delete this album?")) {
+              e.preventDefault();
+            }
+          }}
+        >
           <button
             name="intent"
             value="delete"
