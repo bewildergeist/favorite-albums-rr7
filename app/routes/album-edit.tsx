@@ -1,12 +1,13 @@
 import { requireUserSession } from "~/session/session.server";
 import type { Route } from "./+types/album-edit";
 import Album from "~/db/models/Album";
-import { data, Form, redirect } from "react-router";
+import { data, redirect } from "react-router";
+import AlbumForm from "~/components/AlbumForm";
 
 // LOADER ========================================================= //
 export async function loader({ params, request }: Route.LoaderArgs) {
   const session = await requireUserSession(request);
-  const album = await Album.findById(params.albumId);
+  const album = await Album.findById(params.albumId).lean();
   if (!album) {
     throw new Response(`Couldn't find album with id ${params.albumId}`, {
       status: 404,
@@ -26,113 +27,23 @@ export default function EditAlbum({
   actionData,
 }: Route.ComponentProps) {
   const { album } = loaderData;
+
+  // Use actionData values if available, otherwise use album data
+  const defaultValues = actionData?.values || {
+    title: album.title,
+    artist: album.artist,
+    year: album.year ?? undefined,
+    runningTime: album.runningTime ?? undefined,
+    tracks: album.tracks,
+  };
+
   return (
     <div>
       <h1 className="mb-4 text-2xl font-bold">Edit album</h1>
-      <Form method="post">
-        <label htmlFor="title" className="mb-1 block font-semibold">
-          Title:
-        </label>
-        <input
-          type="text"
-          name="title"
-          id="title"
-          placeholder="Title"
-          defaultValue={album.title ?? actionData?.values.title}
-          className={[
-            "rounded border border-orange-200 w-full p-2",
-            actionData?.errors.title ? "border-2 border-red-500" : "",
-          ].join(" ")}
-        />
-        {actionData?.errors.title && (
-          <p className="mb-0 mt-1 text-red-500">
-            {actionData.errors.title.message}
-          </p>
-        )}
-        <label htmlFor="artist" className="mb-1 block font-semibold">
-          Artist:
-        </label>
-        <input
-          type="text"
-          name="artist"
-          id="artist"
-          placeholder="Artist"
-          defaultValue={album.artist ?? actionData?.values.artist}
-          className={[
-            "rounded border border-orange-200 w-full p-2",
-            actionData?.errors.artist ? "border-2 border-red-500" : "",
-          ].join(" ")}
-        />
-        {actionData?.errors.artist && (
-          <p className="mb-0 mt-1 text-red-500">
-            {actionData.errors.artist.message}
-          </p>
-        )}
-        <label htmlFor="year" className="mb-1 block font-semibold">
-          Year:
-        </label>
-        <input
-          type="text"
-          name="year"
-          id="year"
-          placeholder="Year"
-          defaultValue={album.year ?? actionData?.values.year}
-          className={[
-            "rounded border border-orange-200 w-full p-2",
-            actionData?.errors.year ? "border-2 border-red-500" : "",
-          ].join(" ")}
-        />
-        {actionData?.errors.year && (
-          <p className="mb-0 mt-1 text-red-500">
-            {actionData.errors.year.message}
-          </p>
-        )}
-        <label htmlFor="runningTime" className="mb-1 block font-semibold">
-          Running Time:
-        </label>
-        <input
-          type="text"
-          name="runningTime"
-          id="runningTime"
-          placeholder="Running time (in minutes)"
-          defaultValue={album.runningTime ?? actionData?.values.runningTime}
-          className={[
-            "rounded border border-orange-200 w-full p-2",
-            actionData?.errors.runningTime ? "border-2 border-red-500" : "",
-          ].join(" ")}
-        />
-        {actionData?.errors.runningTime && (
-          <p className="mb-0 mt-1 text-red-500">
-            {actionData.errors.runningTime.message}
-          </p>
-        )}
-        <label htmlFor="tracks" className="mb-1 block font-semibold">
-          Tracks:
-        </label>
-        <textarea
-          name="tracks"
-          id="tracks"
-          rows={10}
-          placeholder="Tracks (one per line)"
-          defaultValue={album.tracks?.join("\n") ?? actionData?.values.tracks}
-          className={[
-            "rounded border border-orange-200 w-full p-2",
-            actionData?.errors.tracks ? "border-2 border-red-500" : "",
-          ].join(" ")}
-        ></textarea>
-        {actionData?.errors.tracks && (
-          <p className="mb-0 mt-1 text-red-500">
-            {actionData.errors.tracks.message}
-          </p>
-        )}
-        <br />
-        <button
-          type="submit"
-          className="mt-3 rounded bg-orange-600 p-2 text-white transition-colors hover:bg-orange-700"
-        >
-          Save
-        </button>
-      </Form>
+      <AlbumForm
+        defaultValues={defaultValues}
+        errors={actionData?.errors || {}}
+      />
     </div>
   );
 }
