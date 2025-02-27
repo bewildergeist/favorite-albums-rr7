@@ -4,6 +4,7 @@ export default [
   index("routes/index.tsx"),
   route("albums", "routes/albums.tsx", [
     route(":albumId", "routes/album-details.tsx"),
+    route("new", "routes/album-new.tsx"),
   ]),
   route("login", "routes/login.tsx"),
   route("logout", "routes/logout.ts"),

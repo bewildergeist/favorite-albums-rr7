@@ -12,12 +12,12 @@ const albumSchema = new mongoose.Schema(
     },
     artist: {
       type: String,
-      required: true,
+      required: [true, "Artist is required"],
     },
     year: {
       type: Number,
       min: [1900, "That's too old, srsly"],
-      max: [5555, "That's the future, man"],
+      max: [2025, "That's the future, man"],
     },
     runningTime: Number,
     tracks: [String],
