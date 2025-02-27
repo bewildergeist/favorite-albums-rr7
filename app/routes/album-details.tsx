@@ -77,7 +77,7 @@ export async function action({ request, params }: Route.ActionArgs) {
       status: 404,
     });
   }
-  if (!album.user !== session.get("userId")) {
+  if (album.user !== session.get("userId")) {
     throw data("That's not your album, my man", { status: 403 });
   }
   if (formData.get("intent") === "delete") {
