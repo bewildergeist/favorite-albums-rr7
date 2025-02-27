@@ -9,7 +9,7 @@ export default function connectDb() {
   if (readyState > 0) {
     console.log(
       "Mongoose: Re-using existing connection (readyState: %d)",
-      readyState
+      readyState,
     );
     return;
   }
