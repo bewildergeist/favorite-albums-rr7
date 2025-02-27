@@ -6,6 +6,7 @@ export default [
     route(":albumId", "routes/album-details.tsx"),
   ]),
   route("login", "routes/login.tsx"),
-  route("seed", "routes/seed.tsx"),
   route("logout", "routes/logout.ts"),
+  route("signup", "routes/signup.tsx"),
+  route("seed", "routes/seed.tsx"),
 ] satisfies RouteConfig;
