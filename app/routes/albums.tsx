@@ -4,6 +4,7 @@ import Album from "~/db/models/Album";
 import { requireUserSession } from "~/session/session.server";
 import type { Route } from "./+types/albums";
 
+// LOADER ========================================================= //
 export async function loader({ request }: Route.LoaderArgs) {
   const session = await requireUserSession(request);
   // Only show the albums that belong to the current user
@@ -11,6 +12,7 @@ export async function loader({ request }: Route.LoaderArgs) {
   return { albums };
 }
 
+// COMPONENT ====================================================== //
 export default function Albums({ loaderData }: Route.ComponentProps) {
   const { albums } = loaderData;
   const [searchTerm, setSearchTerm] = useState("");

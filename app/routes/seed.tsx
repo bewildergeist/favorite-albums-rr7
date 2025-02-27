@@ -5,6 +5,7 @@ import seedAlbums from "~/db/seed/albums";
 import seedUsers from "~/db/seed/users";
 import type { Route } from "./+types/seed";
 
+// LOADER ========================================================= //
 export async function loader() {
   const dbUsersCount = await User.countDocuments();
   const dbAlbumsCount = await Album.countDocuments();
@@ -18,6 +19,7 @@ export async function loader() {
   };
 }
 
+// COMPONENT ====================================================== //
 export default function Seed({ loaderData }: Route.ComponentProps) {
   const { dbUsersCount, dbAlbumsCount, seedUsersCount, seedAlbumsCount } =
     loaderData;
@@ -56,6 +58,7 @@ export default function Seed({ loaderData }: Route.ComponentProps) {
   );
 }
 
+// ACTION ========================================================= //
 export async function action({ request }: Route.ActionArgs) {
   console.time("🌱 DB seeding");
   const formData = await request.formData();
